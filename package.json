@@ -1,7 +1,7 @@
 {
   "name": "obsidian-live-templater",
   "private": true,
-  "version": "0.0.3",
+  "version": "0.0.5",
   "main": "main.js",
   "packageManager": "pnpm@10.14.0",
   "scripts": {
