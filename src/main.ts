@@ -30,7 +30,7 @@ export default class LiveTemplaterPlugin extends Plugin {
 		});
 
 		this.registerMarkdownPostProcessor((element, context) => {
-			renderTemplatePlaceholders(this.data, element, context.sourcePath);
+			return renderTemplatePlaceholders(this.app, this, this.data, element, context);
 		});
 
 		this.registerEvent(

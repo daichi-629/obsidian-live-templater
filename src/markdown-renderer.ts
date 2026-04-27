@@ -1,88 +1,22 @@
-import { parseTemplate } from "./template";
+import type { App, Component, MarkdownPostProcessorContext } from "obsidian";
+import { renderTemplateMarkdownSection } from "./markdown-section-renderer";
+import { renderTemplateTextNodes } from "./text-node-renderer";
 import { DEFAULT_FILE_TEMPLATE_DATA, type LiveTemplaterData } from "./types";
 
-export function renderTemplatePlaceholders(
+export async function renderTemplatePlaceholders(
+	app: App,
+	component: Component,
 	data: LiveTemplaterData,
 	element: HTMLElement,
-	sourcePath: string
+	context: MarkdownPostProcessorContext
 ) {
-	const fileData = data.files[sourcePath] ?? DEFAULT_FILE_TEMPLATE_DATA;
+	const fileData = data.files[context.sourcePath] ?? DEFAULT_FILE_TEMPLATE_DATA;
 	if (!fileData.applyToMarkdownView) {
 		return;
 	}
 
-	replaceTextNodes(element, (text) => renderTemplateTextFragment(text, fileData.values));
-}
-
-function replaceTextNodes(root: HTMLElement, replace: (text: string) => Node | null) {
-	const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
-	const nodes: Text[] = [];
-
-	while (walker.nextNode()) {
-		const node = walker.currentNode;
-		if (node instanceof Text && !isIgnoredTextNode(node)) {
-			nodes.push(node);
-		}
+	const renderedSection = await renderTemplateMarkdownSection(app, component, fileData, element, context);
+	if (!renderedSection) {
+		renderTemplateTextNodes(element, fileData.values);
 	}
-
-	for (const node of nodes) {
-		const replacement = replace(node.nodeValue ?? "");
-		if (replacement) {
-			node.replaceWith(replacement);
-		}
-	}
-}
-
-function renderTemplateTextFragment(text: string, values: Record<string, string>): Node | null {
-	const tokens = parseTemplate(text);
-	if (tokens.length === 0) {
-		return null;
-	}
-
-	const fragment = document.createDocumentFragment();
-	let offset = 0;
-	let changed = false;
-
-	for (const token of tokens) {
-		appendText(fragment, text.slice(offset, token.start));
-
-		const value = values[token.key];
-		if (value === undefined) {
-			appendText(fragment, token.raw);
-		} else {
-			appendValue(fragment, value);
-			changed = true;
-		}
-
-		offset = token.end;
-	}
-
-	appendText(fragment, text.slice(offset));
-	return changed ? fragment : null;
-}
-
-function appendValue(fragment: DocumentFragment, value: string) {
-	const lines = value.split(/\r\n|\r|\n/);
-
-	for (const [index, line] of lines.entries()) {
-		if (index > 0) {
-			fragment.append(document.createElement("br"));
-		}
-		appendText(fragment, line);
-	}
-}
-
-function appendText(fragment: DocumentFragment, text: string) {
-	if (text) {
-		fragment.append(document.createTextNode(text));
-	}
-}
-
-function isIgnoredTextNode(node: Text): boolean {
-	const parent = node.parentElement;
-	if (!parent) {
-		return true;
-	}
-
-	return Boolean(parent.closest("code, pre, script, style, textarea"));
 }
