@@ -1,40 +1,40 @@
 {
-	"name": "obsidian-live-templater",
-	"private": true,
-	"version": "0.0.1",
-	"main": "main.js",
-	"packageManager": "pnpm@10.14.0",
-	"scripts": {
-		"build": "node esbuild.config.mjs",
-		"dev": "node esbuild.config.mjs --watch",
-		"lint": "eslint .",
-		"test": "vitest run",
-		"format": "prettier -w .",
-		"format:check": "prettier -c .",
-		"version:bump": "node ./scripts/version-bump.mjs",
-		"version:patch": "pnpm run version:bump patch",
-		"version:minor": "pnpm run version:bump minor",
-		"version:major": "pnpm run version:bump major"
-	},
-	"dependencies": {
-		"obsidian": "^1.12.2",
-		"react": "^19.2.5",
-		"react-dom": "^19.2.5"
-	},
-	"devDependencies": {
-		"@eslint/js": "^10.0.1",
-		"@types/node": "^25.3.0",
-		"@types/react": "^19.2.14",
-		"@types/react-dom": "^19.2.3",
-		"@vitest/coverage-v8": "^4.0.18",
-		"esbuild": "^0.27.3",
-		"eslint": "^10.0.0",
-		"eslint-plugin-obsidianmd": "^0.1.9",
-		"globals": "^17.3.0",
-		"jiti": "^2.6.1",
-		"prettier": "^3.8.1",
-		"typescript": "^5.9.3",
-		"typescript-eslint": "^8.56.0",
-		"vitest": "^4.0.18"
-	}
+  "name": "obsidian-live-templater",
+  "private": true,
+  "version": "0.0.2",
+  "main": "main.js",
+  "packageManager": "pnpm@10.14.0",
+  "scripts": {
+    "build": "node esbuild.config.mjs",
+    "dev": "node esbuild.config.mjs --watch",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "format": "prettier -w .",
+    "format:check": "prettier -c .",
+    "version:bump": "node ./scripts/version-bump.mjs",
+    "version:patch": "pnpm run version:bump patch",
+    "version:minor": "pnpm run version:bump minor",
+    "version:major": "pnpm run version:bump major"
+  },
+  "dependencies": {
+    "obsidian": "^1.12.2",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.3.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitest/coverage-v8": "^4.0.18",
+    "esbuild": "^0.27.3",
+    "eslint": "^10.0.0",
+    "eslint-plugin-obsidianmd": "^0.1.9",
+    "globals": "^17.3.0",
+    "jiti": "^2.6.1",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.0",
+    "vitest": "^4.0.18"
+  }
 }
