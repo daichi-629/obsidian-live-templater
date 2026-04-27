@@ -115,7 +115,6 @@ export class DataInputView extends ItemView {
 			...this.state.fileData.values,
 			[key]: value
 		};
-		await this.plugin.setFileTemplateValues(path, values);
 		this.state = {
 			...this.state,
 			fileData: {
@@ -125,6 +124,7 @@ export class DataInputView extends ItemView {
 		};
 		this.render();
 		this.plugin.refreshMarkdownViews(path);
+		await this.plugin.setFileTemplateValues(path, values);
 	}
 
 	private async updateApplyToMarkdownView(enabled: boolean) {
