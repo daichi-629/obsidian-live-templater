@@ -45,20 +45,19 @@ The development vault is mounted at `/config/vault` inside the container and is 
 During watch runs, the built plugin files are copied to:
 
 ```text
-vault/.obsidian/plugins/sample-monorepo-plugin/
+vault/.obsidian/plugins/live-templater/
 ```
 
 Watch runs also update:
 
 ```text
-vault/.obsidian/plugins/sample-monorepo-plugin/.hotreload
+vault/.obsidian/plugins/live-templater/.hotreload
 ```
 
-## Workspace layout
+## Project layout
 
 ```text
-packages/
-  core/    Shared logic, utilities, and tests
-  plugin/  Obsidian plugin entrypoint and build output
+src/       Plugin code and template rendering helpers
+__tests__/ Template parsing and rendering tests
 vault/     Local development vault
 ```

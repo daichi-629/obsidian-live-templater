@@ -19,12 +19,7 @@ const next = (() => {
 	throw new Error(`Unsupported version bump: ${arg}`);
 })();
 
-const files = [
-	"package.json",
-	"packages/core/package.json",
-	"packages/plugin/package.json",
-	"packages/plugin/manifest.json"
-];
+const files = ["package.json", "manifest.json"];
 
 for (const file of files) {
 	const filePath = join(process.cwd(), file);
@@ -33,8 +28,8 @@ for (const file of files) {
 	writeFileSync(filePath, JSON.stringify(json, null, 2) + "\n");
 }
 
-const manifestPath = join(process.cwd(), "packages/plugin/manifest.json");
-const versionsPath = join(process.cwd(), "packages/plugin/versions.json");
+const manifestPath = join(process.cwd(), "manifest.json");
+const versionsPath = join(process.cwd(), "versions.json");
 const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
 const versions = JSON.parse(readFileSync(versionsPath, "utf8"));
 

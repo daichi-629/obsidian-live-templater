@@ -1,0 +1,10 @@
+{
+  "id": "live-templater",
+  "name": "Live Templater",
+  "version": "0.0.1",
+  "minAppVersion": "1.5.0",
+  "description": "Render markdown templates with per-file data inputs and copy the rendered output.",
+  "author": "daichi-629",
+  "authorUrl": "https://github.com/daichi-629",
+  "isDesktopOnly": false
+}

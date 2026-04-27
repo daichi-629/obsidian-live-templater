@@ -14,8 +14,7 @@ import { join, resolve } from "node:path";
 import { execFileSync } from "node:child_process";
 
 const pluginRoot = process.cwd();
-const repoRoot = resolve(pluginRoot, "../..");
-const vaultRoot = resolve(repoRoot, "vault");
+const vaultRoot = resolve(pluginRoot, "vault");
 const vaultConfigRoot = resolve(vaultRoot, ".obsidian");
 const localPluginsRoot = resolve(vaultConfigRoot, "plugins");
 
