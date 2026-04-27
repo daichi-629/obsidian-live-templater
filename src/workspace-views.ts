@@ -52,6 +52,7 @@ export function canReflectInMarkdownView(app: App, path: string): boolean {
 		const view = leaf.view;
 		if (view instanceof MarkdownView && view.file?.path === path) {
 			const modeReadable = view as ModeReadableMarkdownView;
+			// Reflection targets reading mode because source mode would edit the user's note display.
 			if (modeReadable.getMode?.() === "preview") {
 				return true;
 			}
@@ -69,6 +70,7 @@ export function refreshMarkdownViews(app: App, path: string) {
 		}
 
 		const rerenderable = view as RerenderableMarkdownView;
+		// Obsidian has exposed rerendering through different mode objects across versions.
 		rerenderable.previewMode?.rerender?.(true);
 		rerenderable.currentMode?.rerender?.(true);
 	}

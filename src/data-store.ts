@@ -2,6 +2,7 @@ import type { TemplateFieldMap } from "./template";
 import type { LiveTemplaterData, FileTemplateData } from "./types";
 import { DEFAULT_FILE_TEMPLATE_DATA, DEFAULT_PLUGIN_DATA } from "./types";
 
+// Plugin data comes from disk and may be absent or from an older version.
 export function normalizePluginData(data: unknown): LiveTemplaterData {
 	if (!isRecord(data) || !isRecord(data.files)) {
 		return { ...DEFAULT_PLUGIN_DATA };
@@ -74,6 +75,7 @@ function normalizeValues(values: unknown): TemplateFieldMap {
 		return {};
 	}
 
+	// Discard malformed persisted entries instead of failing plugin load.
 	const normalized: TemplateFieldMap = {};
 	for (const [key, value] of Object.entries(values)) {
 		if (typeof value === "string") {

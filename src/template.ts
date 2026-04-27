@@ -10,6 +10,7 @@ export type TemplateToken = {
 
 const PLACEHOLDER_PATTERN = /\{\{\s*([A-Za-z0-9_.-]+)\s*\}\}/g;
 
+// Keep parsing independent from Obsidian so template syntax can be tested in isolation.
 export function parseTemplate(source: string): TemplateToken[] {
 	const tokens: TemplateToken[] = [];
 
@@ -40,6 +41,7 @@ export function extractTemplateKeys(source: string): string[] {
 	return Array.from(keys).sort((left, right) => left.localeCompare(right));
 }
 
+// Missing values intentionally leave the original placeholder intact.
 export function renderTemplate(source: string, values: TemplateFieldMap): string {
 	return source.replace(PLACEHOLDER_PATTERN, (raw: string, key: string) => values[key] ?? raw);
 }

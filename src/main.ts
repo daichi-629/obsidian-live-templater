@@ -19,6 +19,7 @@ export default class LiveTemplaterPlugin extends Plugin {
 	async onload() {
 		this.data = normalizePluginData(await this.loadData());
 
+		// Register the React-backed side pane before commands can reveal it.
 		this.registerView(DATA_INPUT_VIEW_TYPE, (leaf) => new DataInputView(leaf, this));
 
 		this.addCommand({
@@ -33,6 +34,7 @@ export default class LiveTemplaterPlugin extends Plugin {
 			return renderTemplatePlaceholders(this.app, this, this.data, element, context);
 		});
 
+		// Keep the input view aligned with the file and layout the user is currently reading.
 		this.registerEvent(
 			this.app.workspace.on("file-open", () => {
 				void refreshDataInputViews(this.app);
@@ -51,6 +53,7 @@ export default class LiveTemplaterPlugin extends Plugin {
 		this.registerEvent(
 			this.app.vault.on("modify", (file) => {
 				if (file instanceof TFile && file.extension === "md") {
+					// Template keys may have changed, and preview panes may need fresh rendered values.
 					void refreshDataInputViews(this.app);
 					refreshMarkdownViews(this.app, file.path);
 				}

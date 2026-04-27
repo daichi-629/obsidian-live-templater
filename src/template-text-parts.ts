@@ -14,6 +14,7 @@ export async function renderTemplateTextParts<T>(
 	let offset = 0;
 	let changed = false;
 
+	// Preserve literal text around placeholders while rendering only keys with stored values.
 	for (const token of tokens) {
 		const before = text.slice(offset, token.start);
 		if (before) {

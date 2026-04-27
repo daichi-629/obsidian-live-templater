@@ -57,6 +57,7 @@ export class DataInputView extends ItemView {
 	async refresh() {
 		const file = this.app.workspace.getActiveFile();
 		if (!(file instanceof TFile) || file.extension !== "md") {
+			// The side pane is still usable, but it has no template source to inspect.
 			this.state = {
 				activePath: null,
 				keys: [],
@@ -109,6 +110,7 @@ export class DataInputView extends ItemView {
 		const path = this.state.activePath;
 		if (!path) return;
 
+		// Persist by active file path so each note keeps its own template values.
 		const values: TemplateFieldMap = {
 			...this.state.fileData.values,
 			[key]: value
@@ -129,6 +131,7 @@ export class DataInputView extends ItemView {
 		const path = this.state.activePath;
 		if (!path) return;
 		if (enabled && !this.state.canApplyToMarkdownView) {
+			// Obsidian exposes preview rerendering only for markdown reading views.
 			new Notice("Reflect in view is available in reading mode only.");
 			return;
 		}
@@ -180,6 +183,7 @@ async function ensureParentFolder(vault: DataInputView["app"]["vault"], path: st
 	const parts = path.split("/").slice(0, -1);
 	let currentPath = "";
 
+	// Create nested folders one segment at a time because the vault API is not mkdir -p.
 	for (const part of parts) {
 		currentPath = currentPath ? `${currentPath}/${part}` : part;
 		if (vault.getAbstractFileByPath(currentPath)) {

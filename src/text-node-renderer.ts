@@ -25,6 +25,7 @@ async function replaceTextNodes(root: HTMLElement, replace: (node: Text) => Prom
 	const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
 	const nodes: Text[] = [];
 
+	// Snapshot nodes before mutating the DOM so TreeWalker traversal is not invalidated.
 	while (walker.nextNode()) {
 		const node = walker.currentNode;
 		if (node instanceof Text && !isIgnoredTextNode(node)) {
@@ -81,6 +82,7 @@ async function renderMarkdownValue(
 ): Promise<Node[]> {
 	const container = document.createElement("div");
 	container.setAttribute(TEMPLATE_VALUE_RENDER_ROOT_ATTRIBUTE, "");
+	// Use Obsidian's renderer so embedded markdown values match preview mode behavior.
 	await MarkdownRenderer.render(app, value, container, sourcePath, component);
 
 	return Array.from(container.childNodes);
@@ -117,6 +119,7 @@ function appendText(fragment: DocumentFragment, text: string) {
 function replaceNodeWithRenderedValue(node: Text, replacement: Node) {
 	const parent = node.parentElement;
 	if (isWholeParagraphPlaceholder(node) && replacement instanceof DocumentFragment) {
+		// A placeholder-only paragraph should be replaced by the rendered block structure.
 		parent?.replaceWith(replacement);
 		return;
 	}
